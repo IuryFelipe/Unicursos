@@ -1,13 +1,14 @@
 package br.unitins.unicursos.model;
 
-public enum TipoUsuario {
+public enum Perfil {
 	ADMINISTRADOR(1, "Administrador"),
-	CLIENTE(2, "Cliente");//A DISCUTIR -  pensei em colocar Aluno
+	PROFESSOR(2, "Professor"),
+	ALUNO(3, "Aluno");
 	
 	private int value;
 	private String label;
 	
-	TipoUsuario (int value, String label) {
+	Perfil (int value, String label) {
 		this.value = value;
 		this.label = label;
 	}
@@ -21,13 +22,13 @@ public enum TipoUsuario {
 	}
 	
 	
-	public static TipoUsuario valueOf(Integer value) {
+	public static Perfil valueOf(Integer value) {
 		if (value == null)
 			return null;
 		
-		for (TipoUsuario tipoUsuario : TipoUsuario.values()) {
-			if (tipoUsuario.getValue() == value) {
-				return tipoUsuario;
+		for (Perfil perfil : values()) {
+			if (perfil.getValue() == value) {
+				return perfil;
 			}
 		}
 		return null;

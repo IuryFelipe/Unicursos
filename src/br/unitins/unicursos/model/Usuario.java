@@ -2,16 +2,125 @@ package br.unitins.unicursos.model;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class Usuario implements Cloneable{
 
 	private Integer id;
 	private String nome;
+	private String cpf;
 	private LocalDate dataNascimento;
+	
+	@NotBlank(message = "O campo Email não pode ser nulo.")
 	private String email;
+	
+	@Size(min = 3, max = 10, message = "A senha deve ter entre 3 e 10 caracteres.")
+	@NotBlank(message = "O campo senha não pode ser nulo.")
 	private String senha;
-	private boolean ativo = Boolean.TRUE; //Seta ativo já no cadastro
-	//private TipoUsuario tipoUsuario; //Aqui informamos se ele é administrador do sistema ou um cliente(aluno)
-	//private LocalDate dataExpiracaoConta; // A DISCUTIR - É caso queiramos adicionar estruturar para pagamentos mensais
+	
+	private Perfil perfil;
+	private Telefone telefone;
+	private Endereco endereco;
+	private boolean ativo;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getCpf() {
+		return cpf;
+	}
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	public Perfil getPerfil() {
+		return perfil;
+	}
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+	public Telefone getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(Telefone telefone) {
+		this.telefone = telefone;
+	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+	public boolean isAtivo() {
+		return ativo;
+	}
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
+	public Usuario getClone() {
+		try {
+			return (Usuario) this.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
+	
 	
 	
 }
