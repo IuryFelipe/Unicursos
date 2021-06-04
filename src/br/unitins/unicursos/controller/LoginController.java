@@ -3,32 +3,39 @@ package br.unitins.unicursos.controller;
 import java.io.IOException;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import br.unitins.unicursos.application.Session;
+import br.unitins.unicursos.application.Util;
+import br.unitins.unicursos.dao.UsuarioDAO;
 import br.unitins.unicursos.model.Usuario;
 
 @Named
 @RequestScoped
 public class LoginController {
 	private Usuario usuario;
-	private String usuario_correto ="iuryfelipe";
-	private String senha_correta = "123456";
 
-	public String logar() {
-		System.out.println("Usuário: "+getUsuario().getEmail());
-		System.out.println("Senha: "+getUsuario().getSenha());
-		if(getUsuario().getEmail().equals(usuario_correto) && getUsuario().getSenha().equals(senha_correta)) {
-			//permite logar;
-			
-			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	public String autenticar() {
+		UsuarioDAO dao = new UsuarioDAO();
+		System.out.println("Dados informados: "+getUsuario().getEmail()+" e senha: "+getUsuario().getSenha());
+		String hash = Util.hash(getUsuario().getSenha() + getUsuario().getEmail());
+		System.out.println("Hash: "+hash);
+		getUsuario().setSenha(hash);
+		Usuario usuarioLogado = dao.Login(getUsuario());
+		if (usuarioLogado != null) {
+			if(usuarioLogado.isAtivo()) {
+				System.out.println("Usuário autenticado com sucesso.");
+				return "index.xhtml";
+			}else {
+				Util.addErrorMessage("Usuário inativo.");
 			}
+		}else {
+			Util.addErrorMessage("Login ou senha inválidos.");
 		}
 		return null;
+		
 	}
 
 	public Usuario getUsuario() {
@@ -40,5 +47,9 @@ public class LoginController {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public void limpar() {
+		usuario = null;
 	}
 }

@@ -4,7 +4,6 @@ public class Telefone {
 	private Integer id;
 	private String codArea;
 	private String numero;
-	private boolean isCelular;
 	
 	public Integer getId() {
 		return id;
@@ -23,12 +22,6 @@ public class Telefone {
 	}
 	public void setNumero(String numero) {
 		this.numero = numero;
-	}
-	public boolean isCelular() {
-		return isCelular;
-	}
-	public void setCelular(boolean isCelular) {
-		this.isCelular = isCelular;
 	}
 	
 	@Override
@@ -55,7 +48,5 @@ public class Telefone {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

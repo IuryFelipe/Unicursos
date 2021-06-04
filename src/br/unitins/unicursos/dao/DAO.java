@@ -18,7 +18,7 @@ public interface DAO<T> {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
 			connection = DriverManager
-					.getConnection("jdbc:postgresql://127.0.0.1:5432/unicursosdb", "postgree", "123456"); //falta criar o banco
+					.getConnection("jdbc:postgresql://127.0.0.1:5432/unicursosdb", "topicos1", "123456");
 			return connection;
 	    } catch (ClassNotFoundException e) {
 			System.out.println("O Driver não foi encontrado.");

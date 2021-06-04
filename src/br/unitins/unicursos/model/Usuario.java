@@ -21,7 +21,7 @@ public class Usuario implements Cloneable{
 	
 	private Perfil perfil;
 	private Telefone telefone;
-	private Endereco endereco;
+	private String endereco;
 	private boolean ativo;
 	
 	public Integer getId() {
@@ -72,10 +72,10 @@ public class Usuario implements Cloneable{
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
-	public Endereco getEndereco() {
+	public String getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 	public boolean isAtivo() {
@@ -118,9 +118,5 @@ public class Usuario implements Cloneable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 	
 }

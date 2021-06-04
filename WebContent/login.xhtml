@@ -10,7 +10,7 @@
 	
 	<h:body>
 		<h1>Página Login</h1>
-	
+		<h:messages styleClass="alert alert-danger hmessages"  />
 		<h:form>
 			<h:outputLabel value="Usuário:"/>
 			<h:inputText value="#{loginController.usuario.email}" />
@@ -18,7 +18,7 @@
 			<h:outputLabel value="Senha:"/>
 			<h:inputSecret value="#{loginController.usuario.senha}" />
 			
-			<h:commandButton value="Logar" action="#{loginController.logar()}" />
+			<h:commandButton value="Logar" action="#{loginController.autenticar()}" />
 		
 		</h:form>
 	</h:body>
