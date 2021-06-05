@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+	<title>Unicursos | Cadastro de Usuário</title>
+</h:head>
+<h:body>
+	<h1>Página de Cadastro de Usuário</h1>
+	
+	<h:form id="form1">
+		<h:messages id="messages" 
+					globalOnly="false"
+					errorStyle="color:red;margin:8px;"
+					infoStyle="color:green;margin:8px;"
+					warnStyle="color:yellow;margin:8px;" />
+		<h:panelGrid id="pgPrincipal" columns="2">
+			
+			<h:outputLabel value="Nome: " />
+			<h:inputText value="#{usuarioController.usuario.nome}"
+				 required="true" requiredMessage="O nome é um campo obrigatório.">
+			</h:inputText>
+			
+			<h:outputLabel value="CPF: " />
+			<h:panelGroup id="pgCpf">
+				<h:inputText id="itCpf" 
+							 binding="#{usuarioController.uicCpf}"
+							 value="#{usuarioController.usuario.cpf}" >
+					<f:ajax	event="blur" 
+							execute="@form"
+							render="@form"
+							listener="#{usuarioController.validaCpf}"
+							/>
+				</h:inputText>
+				<h:message for="itCpf" style="color:red;margin:8px;"/>
+			</h:panelGroup>
+			
+			<h:outputLabel value="Email: " />
+			<h:inputText value="#{usuarioController.usuario.email}" />
+			
+			<h:outputLabel value="Data de Nascimento: " />
+			<h:inputText value="#{usuarioController.usuario.dataNascimento}"
+				converterMessage="A data deve serguir o seguinte formato: Ex.: 20/10/2000">
+				<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+			</h:inputText>		
+			
+			<h:outputLabel value="Endereço: " />
+			<h:inputText value="#{usuarioController.usuario.endereco}" />
+			
+			<h:outputLabel value="Cód. Área: " />
+			<h:inputText value="#{usuarioController.usuario.telefone.codArea}" />
+			
+			<h:outputLabel value="Número Telefone: " />
+			<h:inputText value="#{usuarioController.usuario.telefone.numero}" />
+			
+			<h:outputLabel value="Status: " />
+			<h:selectOneMenu value="#{usuarioController.usuario.ativo}">
+				<f:selectItem itemLabel="Selecione uma opção" />
+				<f:selectItem itemValue="true" itemLabel="Ativo" />
+				<f:selectItem itemValue="false" itemLabel="Inativo" />
+			</h:selectOneMenu>	
+			
+			<h:outputLabel value="Perfil: " />
+			<h:selectOneMenu value="#{usuarioController.usuario.perfil}">
+				<f:selectItem itemLabel="Selecione uma opção"/>
+				<f:selectItems value="#{usuarioController.listaPerfil}"
+							   var="obj" 
+							   itemLabel="#{obj.label}"/>
+			</h:selectOneMenu>
+			
+			<h:outputLabel value="Senha: " />
+			<h:inputSecret id="isSenha" value="#{usuarioController.usuario.senha}" 
+						required="true"
+						requiredMessage="A senha deve ser informada.">
+			</h:inputSecret>
+			
+			<h:outputLabel value="Confirmar Senha: " />
+			<h:inputSecret value="#{usuarioController.confirmarSenha}" />
+	
+		</h:panelGrid>
+		
+		<h:panelGrid id="pgBotoes" columns="4">
+			<h:commandButton value="create" 
+				disabled="#{usuarioController.usuario.id != null}"
+				actionListener="#{usuarioController.create}">
+				<f:ajax execute="@this pgPrincipal" render="@form" />
+			</h:commandButton>
+				
+			<h:commandButton value="update" 
+				disabled="#{usuarioController.usuario.id == null}"
+				actionListener="#{usuarioController.update}"  >
+				<f:ajax execute="@this pgPrincipal" render="@form" />
+			</h:commandButton>
+
+			<h:commandButton value="delete" 
+				disabled="#{usuarioController.usuario.id == null}"
+				actionListener="#{usuarioController.delete}" >
+				<f:ajax execute="@this" render="@form" />
+			</h:commandButton>
+				
+			<h:commandButton value="LimparFormulario" 
+				actionListener="#{usuarioController.limparFormulario}">
+				<f:ajax execute="@this" render="pgPrincipal messages pgBotoes" />
+			</h:commandButton>
+		</h:panelGrid>
+		
+		<h:panelGroup id="pgDataTable">
+			<h:dataTable 
+				id="dataTable"
+				value="#{usuarioController.listaUsuario}"
+				var="obj">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputLabel value="#{obj.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputLabel value="#{obj.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Data de Nascimento</f:facet>
+					<h:outputLabel value="#{obj.dataNascimento}">
+						<f:convertDateTime type="localDate" pattern="dd-MM-yy"/>
+					</h:outputLabel>
+				</h:column>			
+				<h:column>
+					<f:facet name="header">CPF</f:facet>
+					<h:outputLabel value="#{obj.cpf}" />
+				</h:column>	
+				<h:column>
+					<f:facet name="header">E-mail</f:facet>
+					<h:outputLabel value="#{obj.email}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Telefone</f:facet>
+					<h:outputLabel value="#{obj.telefone}" />
+				</h:column>	
+				<h:column>
+					<f:facet name="header">Endereço</f:facet>
+					<h:outputLabel value="#{obj.endereco}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputLabel value="#{obj.ativo}" />
+				</h:column>	
+				<h:column>
+					<f:facet name="header">Perfil</f:facet>
+					<h:outputLabel value="#{obj.perfil.label}" />
+				</h:column>	
+				<h:column>
+					<f:facet name="header">Ação</f:facet>
+					<h:commandButton value="Editar"
+						actionListener="#{usuarioController.edit(obj)}">
+						<f:ajax execute="@this" render="@form"/>
+					</h:commandButton>
+					<h:commandButton value="Excluir"
+						actionListener="#{usuarioController.delete(obj)}">
+						<f:ajax execute="@this" render="@form:pgDataTable @form:messages"/>
+					</h:commandButton>
+				</h:column>	
+			
+			</h:dataTable>
+		</h:panelGroup>
+	</h:form>
+	
+</h:body>
+</html>
