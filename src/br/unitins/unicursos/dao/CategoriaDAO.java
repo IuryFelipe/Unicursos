@@ -9,40 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.unicursos.model.CategoriaCurso;
-import br.unitins.unicursos.model.Curso;
-public class CursoDAO implements DAO<Curso> {
-	
+import br.unitins.unicursos.model.Perfil;
+import br.unitins.unicursos.model.Telefone;
+
+public class CategoriaDAO implements DAO<CategoriaCurso> {
+
 	@Override
-	public boolean create(Curso obj) {
+	public boolean create(CategoriaCurso obj) {
 		Connection conn = DAO.getConnection();
 		boolean erro = false;
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
-		sql.append("curso ");
-		sql.append("  (nome, descricao, categoria, imagem, datainicio, datafim, ativo) ");
+		sql.append("categoriacurso ");
+		sql.append("  (nome, descricao, ativo) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ?, ?, ?, ?, ?, ?) ");
+		sql.append("  ( ?, ?, ?) ");
 		PreparedStatement stat = null;
-		
 		
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getDescricao());
-			stat.setInt(3, obj.getCategoria().getId());
-			stat.setString(4, obj.getImagem());
-			if(obj.getDataInicio() == null) {
-				stat.setDate(5, null);
-			}else {
-				stat.setDate(5, Date.valueOf(obj.getDataInicio()));
-			}
-			if(obj.getDataFim() == null) {
-				stat.setDate(6, null);
-			}else {
-				stat.setDate(6, Date.valueOf(obj.getDataFim()));
-			}
-			stat.setBoolean(7, obj.isAtivo());
+			stat.setBoolean(3, obj.isAtivo());
 			stat.execute();
 			
 		} catch (SQLException e) {
@@ -68,19 +57,15 @@ public class CursoDAO implements DAO<Curso> {
 	}
 
 	@Override
-	public boolean update(Curso obj) {
+	public boolean update(CategoriaCurso obj) {
 		Connection conn = DAO.getConnection();
 		boolean erro = false;
 		
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("UPDATE curso SET ");
+		sql.append("UPDATE categoriacurso SET ");
 		sql.append(" nome = ?, ");
 		sql.append(" descricao = ?, ");
-		sql.append(" categoria = ?, ");
-		sql.append(" imagem = ?, ");
-		sql.append(" datainicio = ?, ");
-		sql.append(" datafim = ?, ");
 		sql.append(" ativo = ?, ");
 		sql.append("WHERE ");
 		sql.append(" id = ? ");
@@ -90,13 +75,9 @@ public class CursoDAO implements DAO<Curso> {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getDescricao());
-			stat.setInt(3, obj.getCategoria().getId());
-			stat.setString(4, obj.getImagem());
-			stat.setDate(5, Date.valueOf(obj.getDataInicio()));
-			stat.setDate(6, Date.valueOf(obj.getDataFim()));
-			stat.setBoolean(7, obj.isAtivo());
+			stat.setBoolean(3, obj.isAtivo());
 			
-			stat.setInt(8, obj.getId());
+			stat.setInt(4, obj.getId());
 			
 			stat.execute();
 		} catch (Exception e) {
@@ -128,7 +109,7 @@ public class CursoDAO implements DAO<Curso> {
 		
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("DELETE FROM curso WHERE id = ? ");
+		sql.append("DELETE FROM categoriacurso WHERE id = ? ");
 		
 		PreparedStatement stat = null;
 		try {
@@ -154,26 +135,19 @@ public class CursoDAO implements DAO<Curso> {
 	}
 
 	@Override
-	public List<Curso> findAll() {
+	public List<CategoriaCurso> findAll() {
 		Connection conn = DAO.getConnection();
-		List<Curso> courseList = new ArrayList<Curso>();
+		List<CategoriaCurso> courseList = new ArrayList<CategoriaCurso>();
 		
 		//nome, descricao, categoria, imagem, datainicio, datafim, ativo
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append(" c.id, ");
+		sql.append(" c.nome, ");
 		sql.append(" c.descricao, ");
-		sql.append(" ca.id AS id_categoria, ");
-		sql.append(" ca.nome AS nome_categoria, ");
-		sql.append(" c.imagem, ");
-		sql.append(" c.datainicio, ");
-		sql.append(" c.datafim, ");
 		sql.append(" c.ativo, ");
 		sql.append("FROM ");
-		sql.append(" curso c ");
-		sql.append(" categoria_curso ca ");
-		sql.append("WHERE ");
-		sql.append(" c.categoria_id = ca.id ");
+		sql.append(" categoriacurso c ");
 		sql.append(" ORDER BY c.name ");
 		
 		PreparedStatement stat = null;
@@ -182,20 +156,12 @@ public class CursoDAO implements DAO<Curso> {
 			ResultSet rs = stat.executeQuery();
 			
 			while(rs.next()) {
-				Curso curso = new Curso();
-				curso.setId(rs.getInt("id"));
-				curso.setDescricao(rs.getString("descricao"));
-				curso.setCategoria(new CategoriaCurso());
-				curso.getCategoria().setId(rs.getInt("id_categoria"));
-				curso.getCategoria().setNome(rs.getString("nome_categoria"));
-				curso.setImagem(rs.getString("imagem"));
-				Date dataInicio = rs.getDate("datainicio");
-				curso.setDataInicio(dataInicio.toLocalDate());
-				Date dataFim = rs.getDate("datafim");
-				curso.setDataFim(dataFim.toLocalDate());
-				curso.setAtivo(rs.getBoolean("ativo"));
+				CategoriaCurso categoriaCurso = new CategoriaCurso();
+				categoriaCurso.setId(rs.getInt("id"));
+				categoriaCurso.setDescricao(rs.getString("descricao"));
+				categoriaCurso.setAtivo(rs.getBoolean("ativo"));
 				
-				courseList.add(curso);
+				courseList.add(categoriaCurso);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -219,31 +185,22 @@ public class CursoDAO implements DAO<Curso> {
 		
 		return courseList;
 	}
-	
-	//nome, descricao, categoria, imagem, datainicio, datafim, ativo
 
 	@Override
-	public Curso findById(Integer id) {
+	public CategoriaCurso findById(Integer id) {
 		Connection conn = DAO.getConnection();
 		
-		Curso curso = null;
+		CategoriaCurso categoria = null;
 		
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
-		sql.append(" c.id, ");
+		sql.append(" c.nome, ");
 		sql.append(" c.descricao, ");
-		sql.append(" ca.id AS id_categoria, ");
-		sql.append(" ca.nome AS nome_categoria, ");
-		sql.append(" c.imagem, ");
-		sql.append(" c.datainicio, ");
-		sql.append(" c.datafim, ");
 		sql.append(" c.ativo, ");
 		sql.append("FROM ");
-		sql.append(" curso c ");
-		sql.append(" categoria_curso ca ");
+		sql.append(" categoriacurso c ");
 		sql.append("WHERE ");
-		sql.append(" c.categoria_id = ca.id ");
-		sql.append(" c.id = ?");
+		sql.append(" c.id = ? ");
 		
 		PreparedStatement stat = null;
 		try {
@@ -253,15 +210,15 @@ public class CursoDAO implements DAO<Curso> {
 			ResultSet rs = stat.executeQuery();
 			
 			if(rs.next()) {
-				curso = new Curso();
-				curso.setId(rs.getInt("id"));
-				curso.setNome(rs.getString("nome"));
-				curso.setDescricao(rs.getString("descricao"));
-				curso.setAtivo(rs.getBoolean("ativo"));
+				categoria = new CategoriaCurso();
+				categoria.setId(rs.getInt("id"));
+				categoria.setNome(rs.getString("nome"));
+				categoria.setDescricao(rs.getString("descricao"));
+				categoria.setAtivo(rs.getBoolean("ativo"));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
-			curso = null;
+			categoria = null;
 		} finally {
 			try {
 				stat.close();
@@ -274,7 +231,7 @@ public class CursoDAO implements DAO<Curso> {
 				e.printStackTrace();
 			}
 		}
-		return curso;
+		return categoria;
 	}
 
 }
