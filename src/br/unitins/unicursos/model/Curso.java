@@ -15,6 +15,9 @@ public class Curso implements Cloneable {
 	private String descricao;
 	@NotNull(message = "O campo Categoria não pode ser nulo")
 	private CategoriaCurso categoria;
+	
+	@NotNull(message = "Deve-se informar o instrutor do curso")
+	private Usuario instrutor; //instrutor do curso
 	private String imagem;
 	
 	private LocalDate dataInicio;
@@ -71,6 +74,14 @@ public class Curso implements Cloneable {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+	
+	public Usuario getInstrutor() {
+		return instrutor;
+	}
+	public void setInstrutor(Usuario instrutor) {
+		this.instrutor = instrutor;
+	}
+	
 	public Curso getClone() {
 		try {
 			return (Curso) this.clone();
@@ -104,12 +115,14 @@ public class Curso implements Cloneable {
 			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
-		return "Curso [nome=" + nome + ", descricao=" + descricao + ", categoria=" + categoria + ", imagem=" + imagem
-				+ ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", ativo=" + ativo + "]";
+		return "Curso [nome=" + nome + ", descricao=" + descricao + ", categoria=" + categoria + ", instrutor="
+				+ instrutor + ", imagem=" + imagem + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", ativo="
+				+ ativo + "]";
 	}
+	
+	
 
 	
 }
