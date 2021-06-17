@@ -2,7 +2,7 @@ package br.unitins.unicursos.model;
 
 public enum Perfil {
 	ADMINISTRADOR(1, "Administrador"),
-	PROFESSOR(2, "Professor"),
+	INSTRUTOR(2, "Instrutor"),
 	ALUNO(3, "Aluno");
 	
 	private int value;

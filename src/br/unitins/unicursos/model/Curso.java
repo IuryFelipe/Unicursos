@@ -3,19 +3,23 @@ package br.unitins.unicursos.model;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Curso implements Cloneable {
 	
 	private Integer id;
 	
-	@NotBlank(message = "O campo Nome não pode ser nulo.")
+	@NotBlank(message = "O campo Nome não pode ser vazio.")
 	private String nome;
 	
 	private String descricao;
+	@NotNull(message = "O campo Categoria não pode ser nulo")
 	private CategoriaCurso categoria;
 	private String imagem;
+	
 	private LocalDate dataInicio;
 	private LocalDate dataFim;
+	@NotNull(message = "O campo Ativo não pode ser nulo")
 	private boolean ativo;
 	
 	
@@ -100,5 +104,12 @@ public class Curso implements Cloneable {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "Curso [nome=" + nome + ", descricao=" + descricao + ", categoria=" + categoria + ", imagem=" + imagem
+				+ ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", ativo=" + ativo + "]";
+	}
 
+	
 }
