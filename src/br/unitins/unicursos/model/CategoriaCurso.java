@@ -1,10 +1,15 @@
 package br.unitins.unicursos.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CategoriaCurso implements Cloneable {
 	
 	private Integer id;
+	@NotBlank(message = "Deve-se informar o campo nome da categoria do curso")
 	private String nome;
 	private String descricao;
+	@NotNull(message = "O campo ativo não pode ser vazio")
 	private boolean ativo;
 	
 	
@@ -65,5 +70,11 @@ public class CategoriaCurso implements Cloneable {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "CategoriaCurso [nome=" + nome + ", descricao=" + descricao + ", ativo=" + ativo + "]";
+	}
+	
+	
 
 }
