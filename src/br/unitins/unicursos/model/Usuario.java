@@ -3,12 +3,15 @@ package br.unitins.unicursos.model;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Usuario implements Cloneable{
 
 	private Integer id;
+	@NotBlank(message = "O nome do usuário deve ser informado")
 	private String nome;
+	@NotBlank(message = "O CPF do usuário deve ser informado")
 	private String cpf;
 	private LocalDate dataNascimento;
 	
@@ -19,9 +22,12 @@ public class Usuario implements Cloneable{
 	@NotBlank(message = "O campo senha não pode ser nulo.")
 	private String senha;
 	
+	@NotNull(message = "O perfil do usuário deve ser informado")
 	private Perfil perfil;
 	private Telefone telefone;
 	private String endereco;
+	
+	@NotNull(message = "O campo ativo não pode ser nulo")
 	private boolean ativo;
 	
 	public Integer getId() {
@@ -118,5 +124,13 @@ public class Usuario implements Cloneable{
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Usuario [nome=" + nome + ", cpf=" + cpf + ", dataNascimento=" + dataNascimento + ", email=" + email
+				+ ", senha=" + senha + ", perfil=" + perfil + ", telefone=" + telefone + ", endereco=" + endereco
+				+ ", ativo=" + ativo + "]";
+	}
+	
+	
 	
 }
