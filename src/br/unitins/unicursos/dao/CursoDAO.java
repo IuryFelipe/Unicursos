@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.unitins.unicursos.model.CategoriaCurso;
 import br.unitins.unicursos.model.Curso;
+import br.unitins.unicursos.model.Usuario;
 public class CursoDAO implements DAO<Curso> {
 	
 	@Override
@@ -20,9 +21,9 @@ public class CursoDAO implements DAO<Curso> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("curso ");
-		sql.append("  (nome, descricao, categoria, imagem, datainicio, datafim, ativo) ");
+		sql.append("  (nome, descricao, categoria, imagem, datainicio, datafim, ativo, usuario) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ?, ?, ?, ?, ?, ?) ");
+		sql.append("  ( ?, ?, ?, ?, ?, ?, ?, ?) ");
 		PreparedStatement stat = null;
 		
 		
@@ -43,6 +44,7 @@ public class CursoDAO implements DAO<Curso> {
 				stat.setDate(6, Date.valueOf(obj.getDataFim()));
 			}
 			stat.setBoolean(7, obj.isAtivo());
+			stat.setInt(8, obj.getUsuario().getId());
 			stat.execute();
 			
 		} catch (SQLException e) {
@@ -72,7 +74,7 @@ public class CursoDAO implements DAO<Curso> {
 		Connection conn = DAO.getConnection();
 		boolean erro = false;
 		
-		
+		//não pode alterar o usuário(instrutor) do curso - Não nessa versão, pelo menos...
 		StringBuffer sql = new StringBuffer();
 		sql.append("UPDATE curso SET ");
 		sql.append(" nome = ?, ");
@@ -158,23 +160,26 @@ public class CursoDAO implements DAO<Curso> {
 		Connection conn = DAO.getConnection();
 		List<Curso> courseList = new ArrayList<Curso>();
 		
-		//nome, descricao, categoria, imagem, datainicio, datafim, ativo
+		//nome, descricao, categoria, imagem, datainicio, datafim, ativo - por categoria
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append(" c.id, ");
 		sql.append(" c.descricao, ");
 		sql.append(" ca.id AS id_categoria, ");
 		sql.append(" ca.nome AS nome_categoria, ");
+		sql.append(" us.id AS id_usuario, ");
+		sql.append(" us.nome AS nome_usuario, ");
 		sql.append(" c.imagem, ");
 		sql.append(" c.datainicio, ");
 		sql.append(" c.datafim, ");
 		sql.append(" c.ativo, ");
 		sql.append("FROM ");
 		sql.append(" curso c ");
-		sql.append(" categoria_curso ca ");
+		sql.append(" categoriacurso ca ");
+		sql.append(" usuario us ");
 		sql.append("WHERE ");
-		sql.append(" c.categoria_id = ca.id ");
-		sql.append(" ORDER BY c.name ");
+		sql.append(" c.categoria = ca.id AND c.usuario = us.id");
+		sql.append(" ORDER BY c.nome ");
 		
 		PreparedStatement stat = null;
 		try {
@@ -194,6 +199,9 @@ public class CursoDAO implements DAO<Curso> {
 				Date dataFim = rs.getDate("datafim");
 				curso.setDataFim(dataFim.toLocalDate());
 				curso.setAtivo(rs.getBoolean("ativo"));
+				curso.setUsuario(new Usuario());
+				curso.getUsuario().setId(rs.getInt("id_usuario"));//instrutor do curso
+				curso.getUsuario().setNome(rs.getString("nome_usuario"));
 				
 				courseList.add(curso);
 			}
@@ -234,6 +242,8 @@ public class CursoDAO implements DAO<Curso> {
 		sql.append(" c.descricao, ");
 		sql.append(" ca.id AS id_categoria, ");
 		sql.append(" ca.nome AS nome_categoria, ");
+		sql.append(" us.id AS id_usuario, ");
+		sql.append(" us.nome AS nome_usuario, ");
 		sql.append(" c.imagem, ");
 		sql.append(" c.datainicio, ");
 		sql.append(" c.datafim, ");
@@ -241,9 +251,10 @@ public class CursoDAO implements DAO<Curso> {
 		sql.append("FROM ");
 		sql.append(" curso c ");
 		sql.append(" categoria_curso ca ");
+		sql.append(" usuario us ");
 		sql.append("WHERE ");
-		sql.append(" c.categoria_id = ca.id ");
-		sql.append(" c.id = ?");
+		sql.append(" c.categoria = ca.id AND c.usuario = us.id");
+		sql.append(" AND c.id = ?");
 		
 		PreparedStatement stat = null;
 		try {
@@ -255,9 +266,19 @@ public class CursoDAO implements DAO<Curso> {
 			if(rs.next()) {
 				curso = new Curso();
 				curso.setId(rs.getInt("id"));
-				curso.setNome(rs.getString("nome"));
 				curso.setDescricao(rs.getString("descricao"));
+				curso.setCategoria(new CategoriaCurso());
+				curso.getCategoria().setId(rs.getInt("id_categoria"));
+				curso.getCategoria().setNome(rs.getString("nome_categoria"));
+				curso.setImagem(rs.getString("imagem"));
+				Date dataInicio = rs.getDate("datainicio");
+				curso.setDataInicio(dataInicio.toLocalDate());
+				Date dataFim = rs.getDate("datafim");
+				curso.setDataFim(dataFim.toLocalDate());
 				curso.setAtivo(rs.getBoolean("ativo"));
+				curso.setUsuario(new Usuario());
+				curso.getUsuario().setId(rs.getInt("id_usuario"));//instrutor do curso
+				curso.getUsuario().setNome(rs.getString("nome_usuario"));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

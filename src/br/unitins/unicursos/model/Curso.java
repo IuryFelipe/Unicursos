@@ -17,7 +17,7 @@ public class Curso implements Cloneable {
 	private CategoriaCurso categoria;
 	
 	@NotNull(message = "Deve-se informar o instrutor do curso")
-	private Usuario instrutor; //instrutor do curso
+	private Usuario usuario; //instrutor do curso
 	private String imagem;
 	
 	private LocalDate dataInicio;
@@ -75,11 +75,12 @@ public class Curso implements Cloneable {
 		this.ativo = ativo;
 	}
 	
-	public Usuario getInstrutor() {
-		return instrutor;
+	
+	public Usuario getUsuario() {
+		return usuario;
 	}
-	public void setInstrutor(Usuario instrutor) {
-		this.instrutor = instrutor;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	public Curso getClone() {
@@ -117,10 +118,11 @@ public class Curso implements Cloneable {
 	}
 	@Override
 	public String toString() {
-		return "Curso [nome=" + nome + ", descricao=" + descricao + ", categoria=" + categoria + ", instrutor="
-				+ instrutor + ", imagem=" + imagem + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", ativo="
-				+ ativo + "]";
+		return "Curso [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", categoria=" + categoria
+				+ ", usuario=" + usuario + ", imagem=" + imagem + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim
+				+ ", ativo=" + ativo + "]";
 	}
+	
 	
 	
 
