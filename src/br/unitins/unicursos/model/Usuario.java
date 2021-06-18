@@ -126,10 +126,11 @@ public class Usuario implements Cloneable{
 	}
 	@Override
 	public String toString() {
-		return "Usuario [nome=" + nome + ", cpf=" + cpf + ", dataNascimento=" + dataNascimento + ", email=" + email
-				+ ", senha=" + senha + ", perfil=" + perfil + ", telefone=" + telefone + ", endereco=" + endereco
-				+ ", ativo=" + ativo + "]";
+		return "Usuario [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", dataNascimento=" + dataNascimento
+				+ ", email=" + email + ", senha=" + senha + ", perfil=" + perfil + ", telefone=" + telefone
+				+ ", endereco=" + endereco + ", ativo=" + ativo + "]";
 	}
+	
 	
 	
 	

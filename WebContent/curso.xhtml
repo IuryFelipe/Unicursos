@@ -11,7 +11,7 @@
 	<div class="container-fluid">
 		<div class="row justify-content-md-center">
 			<div class="col-md-6 col-md-auto login-box">		
-				<h1>Cadastrar Curso</h1>
+				<h1>Cadastrar curso</h1>
 				<h:form id="form1">
 					<h:messages id="messages" 
 								globalOnly="false"
@@ -30,10 +30,13 @@
 						<h:outputLabel value="Descrição: " />
 						<h:inputText value="#{cursoController.curso.descricao}" />
 						
+						<h:outputLabel value="Url Imagem: " />
+						<h:inputText value="#{cursoController.curso.imagem}" />
+						
 						<h:outputLabel value="Categoria: " />
-						<h:selectOneMenu value="#{cursoController.curso.categoria.nome}">
-							<f:selectItem itemLabel="Selecione ..."/>
-							<f:selectItems value="#{cursoController.listaCategoria}"
+						<h:selectOneMenu value="#{cursoController.curso.categoria}">
+							<f:selectItem itemLabel="Selecione uma opção"/>
+							<f:selectItems value="#{cursoController.listaCategoriaCurso}"
 										   var="obj" 
 										   itemLabel="#{obj.label}"/>
 						</h:selectOneMenu>

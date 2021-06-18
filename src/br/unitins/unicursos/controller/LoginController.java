@@ -27,6 +27,7 @@ public class LoginController {
 		if (usuarioLogado != null) {
 			if(usuarioLogado.isAtivo()) {
 				System.out.println("Usuário autenticado com sucesso.");
+				Session.getInstance().set("usuarioLogado", usuarioLogado);
 				return "index.xhtml";
 			}else {
 				Util.addErrorMessage("Usuário inativo.");

@@ -10,11 +10,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import br.unitins.unicursos.application.Util;
-import br.unitins.unicursos.dao.CategoriaDAO;
 import br.unitins.unicursos.dao.CursoDAO;
 import br.unitins.unicursos.dao.DAO;
 import br.unitins.unicursos.model.CategoriaCurso;
 import br.unitins.unicursos.model.Curso;
+import br.unitins.unicursos.model.Perfil;
+import br.unitins.unicursos.model.Usuario;
 
 @Named
 @ViewScoped
@@ -26,45 +27,36 @@ public class CursoController implements Serializable {
 	private static final long serialVersionUID = -2992064761681670352L;
 	
 	private Curso curso = null;
-	private List<Curso> courseList = null;
-	private List<CategoriaCurso> categoryList = null;
+	private List<Curso> listaCurso = null;
 	
-	public List<CategoriaCurso> getListaCategoria() {
-		if (categoryList == null) {
-			DAO<CategoriaCurso> dao = new CategoriaDAO();
-			categoryList = dao.findAll();
-			if (categoryList == null) {
-				categoryList = new ArrayList<CategoriaCurso>();
-			}
-		}
-		return categoryList;
+	public CategoriaCurso[] getListaCategoriaCurso() {
+		return CategoriaCurso.values();
 	}
 	
 	public List<Curso> getListaCurso() {
-		if (courseList == null) {
+		if (listaCurso == null) {
 			DAO<Curso> dao = new CursoDAO();
-			courseList = dao.findAll();
-			if (courseList == null) {
-				courseList = new ArrayList<Curso>();
+			listaCurso = dao.findAll();
+			if (listaCurso == null) {
+				listaCurso = new ArrayList<Curso>();
 			}
 		}
-		return courseList;
+		return listaCurso;
 	}
 	
-	public void setCourseList(List<Curso> courseList) {
-		this.courseList = courseList;
+	public void setListaCurso(List<Curso> listaCurso) {
+		this.listaCurso = listaCurso;
 	}
 	
 	public Curso getCurso() {
 		if(curso == null) {
 			curso = new Curso();
-			curso.setCategoria(new CategoriaCurso());
 		}
 		return curso;
 	}
 	
-	public void setCurso(Curso course) {
-		this.curso = course;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 	
 	public CursoController() {
@@ -97,9 +89,9 @@ public class CursoController implements Serializable {
 		delete(getCurso());
 	}
 	
-	public void delete(Curso course) {
+	public void delete(Curso curso) {
 		DAO<Curso> dao = new CursoDAO();
-		if (dao.delete(course.getId())) {
+		if (dao.delete(curso.getId())) {
 			Util.addInfoMessage("O curso foi excluído com sucesso!");
 		} else {
 			Util.addErrorMessage("Houve um problema ao tentar excluir o curso.");
@@ -108,7 +100,7 @@ public class CursoController implements Serializable {
 
 	public void limparFormulario() {
 		setCurso(null);
-		setCourseList(null);
+		setListaCurso(null);
 	}
 
 }

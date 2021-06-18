@@ -8,13 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.unitins.unicursos.application.Session;
 import br.unitins.unicursos.model.CategoriaCurso;
 import br.unitins.unicursos.model.Curso;
+import br.unitins.unicursos.model.Perfil;
 import br.unitins.unicursos.model.Usuario;
 public class CursoDAO implements DAO<Curso> {
 	
 	@Override
 	public boolean create(Curso obj) {
+		//System.out.println(Session.getInstance().get("usuarioLogado"));
+		Usuario usuarioLogado = (Usuario) Session.getInstance().get("usuarioLogado");
+		System.out.println(usuarioLogado.getId().toString());
 		Connection conn = DAO.getConnection();
 		boolean erro = false;
 		
@@ -31,7 +36,11 @@ public class CursoDAO implements DAO<Curso> {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getDescricao());
-			stat.setInt(3, obj.getCategoria().getId());
+			if(obj.getCategoria() != null) {
+				stat.setInt(3, obj.getCategoria().getValue());
+			}else {
+				stat.setObject(3, null);
+			}
 			stat.setString(4, obj.getImagem());
 			if(obj.getDataInicio() == null) {
 				stat.setDate(5, null);
@@ -43,8 +52,9 @@ public class CursoDAO implements DAO<Curso> {
 			}else {
 				stat.setDate(6, Date.valueOf(obj.getDataFim()));
 			}
-			stat.setBoolean(7, obj.isAtivo());
-			stat.setInt(8, obj.getUsuario().getId());
+			stat.setBoolean(7, true);
+			
+			stat.setInt(8, usuarioLogado.getId());
 			stat.execute();
 			
 		} catch (SQLException e) {
@@ -92,7 +102,11 @@ public class CursoDAO implements DAO<Curso> {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getDescricao());
-			stat.setInt(3, obj.getCategoria().getId());
+			if(obj.getCategoria() != null) {
+				stat.setInt(3, obj.getCategoria().getValue());
+			}else {
+				stat.setObject(3, null);
+			}
 			stat.setString(4, obj.getImagem());
 			stat.setDate(5, Date.valueOf(obj.getDataInicio()));
 			stat.setDate(6, Date.valueOf(obj.getDataFim()));
@@ -165,20 +179,16 @@ public class CursoDAO implements DAO<Curso> {
 		sql.append("SELECT ");
 		sql.append(" c.id, ");
 		sql.append(" c.descricao, ");
-		sql.append(" ca.id AS id_categoria, ");
-		sql.append(" ca.nome AS nome_categoria, ");
+		sql.append(" c.categoria, ");
 		sql.append(" us.id AS id_usuario, ");
 		sql.append(" us.nome AS nome_usuario, ");
 		sql.append(" c.imagem, ");
 		sql.append(" c.datainicio, ");
 		sql.append(" c.datafim, ");
-		sql.append(" c.ativo, ");
+		sql.append(" c.ativo ");
 		sql.append("FROM ");
 		sql.append(" curso c ");
-		sql.append(" categoriacurso ca ");
-		sql.append(" usuario us ");
-		sql.append("WHERE ");
-		sql.append(" c.categoria = ca.id AND c.usuario = us.id");
+		sql.append("INNER JOI usuario us ON (c.usuario = us.id) ");
 		sql.append(" ORDER BY c.nome ");
 		
 		PreparedStatement stat = null;
@@ -190,9 +200,7 @@ public class CursoDAO implements DAO<Curso> {
 				Curso curso = new Curso();
 				curso.setId(rs.getInt("id"));
 				curso.setDescricao(rs.getString("descricao"));
-				curso.setCategoria(new CategoriaCurso());
-				curso.getCategoria().setId(rs.getInt("id_categoria"));
-				curso.getCategoria().setNome(rs.getString("nome_categoria"));
+				curso.setCategoria(CategoriaCurso.valueOf(rs.getInt("categoria")));
 				curso.setImagem(rs.getString("imagem"));
 				Date dataInicio = rs.getDate("datainicio");
 				curso.setDataInicio(dataInicio.toLocalDate());
@@ -240,21 +248,18 @@ public class CursoDAO implements DAO<Curso> {
 		sql.append("SELECT ");
 		sql.append(" c.id, ");
 		sql.append(" c.descricao, ");
-		sql.append(" ca.id AS id_categoria, ");
-		sql.append(" ca.nome AS nome_categoria, ");
+		sql.append(" c.categoria, ");
 		sql.append(" us.id AS id_usuario, ");
 		sql.append(" us.nome AS nome_usuario, ");
 		sql.append(" c.imagem, ");
 		sql.append(" c.datainicio, ");
 		sql.append(" c.datafim, ");
-		sql.append(" c.ativo, ");
+		sql.append(" c.ativo ");
 		sql.append("FROM ");
 		sql.append(" curso c ");
-		sql.append(" categoria_curso ca ");
-		sql.append(" usuario us ");
+		sql.append("INNER JOI usuario us ON (c.usuario = us.id) ");
 		sql.append("WHERE ");
-		sql.append(" c.categoria = ca.id AND c.usuario = us.id");
-		sql.append(" AND c.id = ?");
+		sql.append(" c.id = ?");
 		
 		PreparedStatement stat = null;
 		try {
@@ -267,9 +272,7 @@ public class CursoDAO implements DAO<Curso> {
 				curso = new Curso();
 				curso.setId(rs.getInt("id"));
 				curso.setDescricao(rs.getString("descricao"));
-				curso.setCategoria(new CategoriaCurso());
-				curso.getCategoria().setId(rs.getInt("id_categoria"));
-				curso.getCategoria().setNome(rs.getString("nome_categoria"));
+				curso.setCategoria(CategoriaCurso.valueOf(rs.getInt("categoria")));
 				curso.setImagem(rs.getString("imagem"));
 				Date dataInicio = rs.getDate("datainicio");
 				curso.setDataInicio(dataInicio.toLocalDate());
