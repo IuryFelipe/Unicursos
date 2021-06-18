@@ -10,6 +10,7 @@ import javax.inject.Named;
 import br.unitins.unicursos.application.Session;
 import br.unitins.unicursos.application.Util;
 import br.unitins.unicursos.dao.UsuarioDAO;
+import br.unitins.unicursos.model.Perfil;
 import br.unitins.unicursos.model.Usuario;
 
 @Named
@@ -28,7 +29,12 @@ public class LoginController {
 			if(usuarioLogado.isAtivo()) {
 				System.out.println("Usuário autenticado com sucesso.");
 				Session.getInstance().set("usuarioLogado", usuarioLogado);
-				return "index.xhtml";
+				if(usuarioLogado.getPerfil().equals(Perfil.ADMINISTRADOR)  || usuarioLogado.getPerfil().equals(Perfil.INSTRUTOR)) {
+					return "administrativo.xhtml";
+				}else {
+					return "sistemaemconstrucao.xhtml";
+				}
+				//return "index.xhtml";
 			}else {
 				Util.addErrorMessage("Usuário inativo.");
 			}
