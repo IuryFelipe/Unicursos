@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:re="http://xmlns.jcp.org/jsf/facelets&#8221;">
+	
+<ui:composition template="/template.xhtml">
+<ui:define name="conteudo">
+
+
+
+	<section class="product_section layout_padding">
+	    <div class="container">
+	      <div class="heading_container heading_center">
+	        <h2>
+	          Cursos
+	        </h2>
+	      </div>
+	      <div class="row">
+	      	<re:repeat var="curso" value="#{catalogoController.courseList}">
+		        <div class="col-sm-6 col-lg-4">
+		          <div class="box">
+		            <div class="img-box">
+		              
+		              <a href="" class="add_cart_btn">
+		                <span>
+		                  Add ao carrinho
+		                </span>
+		              </a>
+		            </div>
+		            <div class="detail-box">
+		              <h5>
+		                <h:outputText value="#{curso.nome}"/>
+		              </h5>
+		              <div class="product_info">
+		                <h5>
+		                  <span>R$</span> <h:outputText value="#{curso.valor}"/>
+		                </h5>
+		                <div class="star_container">
+		                  <i class="fa fa-star" aria-hidden="true"></i>
+		                  <i class="fa fa-star" aria-hidden="true"></i>
+		                  <i class="fa fa-star" aria-hidden="true"></i>
+		                  <i class="fa fa-star" aria-hidden="true"></i>
+		                  <i class="fa fa-star" aria-hidden="true"></i>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+	        </re:repeat>
+	      </div>
+	      <div class="btn_box">
+	        <a href="" class="view_more-link">
+	          View More
+	        </a>
+	      </div>
+	    </div>
+	  </section>
+
+
+
+	<!-- Container -->
+	<div class="container-fluid">
+		<div class="row justify-content-md-center">
+			<div class="col-md-6 col-md-auto login-box">		
+				<h1>Cursos</h1>
+				<h:form id="form1">
+					<h:messages id="messages" 
+								globalOnly="false"
+								errorStyle="color:red;margin:8px;"
+								infoStyle="color:green;margin:8px;"
+								warnStyle="color:yellow;margin:8px;" />
+					<h:panelGrid id="pgPrincipal" columns="2">
+					
+						<h:outputLabel value="Nome do curso: " />
+						<h:inputText value="#{cursoController.curso.nome}"
+							 validatorMessage="O nome tem que possuir mais de 3 caracteres."
+							 required="true" requiredMessage="O nome deve ser preenchido.">
+							<f:validateLength minimum="3" />
+						</h:inputText>
+						
+						<h:outputLabel value="Descrição: " />
+						<h:inputText value="#{cursoController.curso.descricao}" />
+						
+						<h:outputLabel value="Url Imagem: " />
+						<h:inputText value="#{cursoController.curso.imagem}" />
+						
+						<h:outputLabel value="Categoria: " />
+						<h:selectOneMenu value="#{cursoController.curso.categoria}">
+							<f:selectItem itemLabel="Selecione uma opção"/>
+							<f:selectItems value="#{cursoController.listaCategoriaCurso}"
+										   var="obj" 
+										   itemLabel="#{obj.label}"/>
+						</h:selectOneMenu>
+						
+						<h:outputLabel value="Data Inicio: " />
+						<h:inputText value="#{cursoController.curso.dataInicio}"
+							converterMessage="A data deve serguir o seguinte formato: Ex.: 20/10/2000">
+							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+						</h:inputText>
+						
+						<h:outputLabel value="Data Fim: " />
+						<h:inputText value="#{cursoController.curso.dataFim}"
+							converterMessage="A data deve serguir o seguinte formato: Ex.: 20/10/2000">
+							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+						</h:inputText>	
+				
+					</h:panelGrid>
+					
+					<h:panelGrid id="pgBotoes" columns="4">
+						<h:commandButton value="Incluir" 
+							rendered="#{cursoController.curso.id == null}"
+							actionListener="#{cursoController.create}">
+							<f:ajax execute="@this pgPrincipal" render="@form" />
+						</h:commandButton>
+							
+						<h:commandButton value="Alterar" 
+							rendered="#{cursoController.curso.id != null}"
+							actionListener="#{cursoController.update}"  >
+							<f:ajax execute="@this pgPrincipal" render="@form" />
+						</h:commandButton>
+			
+						<h:commandButton value="Excluir" 
+							rendered="#{cursoController.curso.id != null}"
+							actionListener="#{cursoController.delete}" >
+							<f:ajax execute="@this" render="@form" />
+						</h:commandButton>
+							
+						<h:commandButton value="Limpar" 
+							actionListener="#{cursoController.limparFormulario}">
+							<f:ajax execute="@this" render="pgPrincipal messages pgBotoes" />
+						</h:commandButton>
+					</h:panelGrid>
+					
+				</h:form>
+			</div>
+		</div>
+	</div>
+</ui:define>
+</ui:composition>
+</html>

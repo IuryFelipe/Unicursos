@@ -23,7 +23,6 @@ public class UsuarioController implements Serializable {
 
 	private static final long serialVersionUID = -9046422907703860927L;
 	private Usuario usuario = null;
-	private Telefone telefone = null;
 	private List<Usuario> listaUsuario = null;
 	private String confirmarSenha;
 	private UIComponent uicCpf;

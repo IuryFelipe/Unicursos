@@ -188,7 +188,7 @@ public class CursoDAO implements DAO<Curso> {
 		sql.append(" c.ativo ");
 		sql.append("FROM ");
 		sql.append(" curso c ");
-		sql.append("INNER JOI usuario us ON (c.usuario = us.id) ");
+		sql.append("INNER JOIN usuario us ON (c.usuario = us.id) ");
 		sql.append(" ORDER BY c.nome ");
 		
 		PreparedStatement stat = null;
@@ -202,10 +202,14 @@ public class CursoDAO implements DAO<Curso> {
 				curso.setDescricao(rs.getString("descricao"));
 				curso.setCategoria(CategoriaCurso.valueOf(rs.getInt("categoria")));
 				curso.setImagem(rs.getString("imagem"));
-				Date dataInicio = rs.getDate("datainicio");
-				curso.setDataInicio(dataInicio.toLocalDate());
-				Date dataFim = rs.getDate("datafim");
-				curso.setDataFim(dataFim.toLocalDate());
+				if (rs.getDate("datainicio") != null) {
+					Date dataInicio = rs.getDate("datainicio");
+					curso.setDataInicio(dataInicio.toLocalDate());
+				}
+				if (rs.getDate("datafim") != null) {
+					Date dataFim = rs.getDate("datafim");
+					curso.setDataFim(dataFim.toLocalDate());
+				}
 				curso.setAtivo(rs.getBoolean("ativo"));
 				curso.setUsuario(new Usuario());
 				curso.getUsuario().setId(rs.getInt("id_usuario"));//instrutor do curso
