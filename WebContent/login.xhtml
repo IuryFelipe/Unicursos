@@ -22,16 +22,48 @@
 		<div class="container d-flex justify-content-center mt-5 ">
 			<div class="row justify-content-md-center">
 				<div class="col-md-6 col-md-auto login-box">
+						
+						<div class="d-flex justify-content-center mb-4">
+							<h:graphicImage class="ml-2 pb-3 mr-2" width="250px"
+								library="images" name="logo_unicursos.png" />
+						</div>
 	
 					<h:form>
-						<h:messages styleClass="alert alert-danger hmessages"  />
-						<h:outputLabel value="Usuário:"/>
-						<h:inputText value="#{loginController.usuario.email}" />
-										
-						<h:outputLabel value="Senha:"/>
-						<h:inputSecret value="#{loginController.usuario.senha}" />
+						<div class="form-row">
+							<h:messages id="messages" infoStyle="color:green"
+							warnStyle="color:orange" errorStyle="color:red"
+							globalOnly="false" />
+							
+							<div class="col-md-12 input-group form-group wdi-red">
+								<div class="input-group-prepend">
+								<span class="input-group-text bg-laranja"><i
+									class="pi pi-user" style="font-size: 2em; color: #fff;"></i></span>
+								</div>
+							
+								<h:inputText styleClass="form-control form-control-lg" value="#{loginController.usuario.email}">
+									<f:passThroughAttribute name="placeholder" value="Email" />
+								</h:inputText>
+							</div>		
+							<div class="col-md-12 input-group form-group wdi-red">
+								<div class="input-group-prepend">
+									<span class="input-group-text bg-laranja"><i
+										class="pi pi-key" style="font-size: 2em; color: #fff;"></i></span>
+								</div>	
+								
+									
+								
+								<h:inputSecret id="senha" type="password" class="form-control form-control-lg" 
+									value="#{loginController.usuario.senha}">
+									<f:passThroughAttribute name="placeholder" value="Senha" />
+								</h:inputSecret>
+							</div>
+							<div class="col-md-12 input-group form-group mt-3">
+								<h:commandButton styleClass="btn btn-lg btn-block btn-login" value="Logar" action="#{loginController.autenticar()}">
+									<f:ajax render="@form" execute="@all" />
+								</h:commandButton>
+							</div>
 						
-						<h:commandButton value="Logar" action="#{loginController.autenticar()}" />
+						</div>
 					</h:form>
 				</div>
 			</div>
