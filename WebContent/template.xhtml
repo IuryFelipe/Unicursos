@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">>
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 <h:head>
 	<meta charset="utf-8" name="viewport"
 		content="width=device-width, initial-scale=1"
@@ -48,7 +48,7 @@
 							<f:selectItem itemValue="1" itemLabel="Nome" />
 							<f:selectItem itemValue="2" itemLabel="Descrição" />                   
 						</h:selectOneMenu>
-			              <input type="text" class="form-control" placeholder="Search here..." 
+			              <input type="text" class="form-control" placeholder="Pesquisar..." 
 			              							jsf:value="#{compraController.filtro}"/>
 			              <h:commandButton class="" type="submit" actionListener="#{compraController.pesquisar}">
 			                <i class="fa fa-search" aria-hidden="true"></i>
@@ -70,7 +70,7 @@
 		                </span>
 		              </a>
 		             </h:form>
-	              <a href="" class="cart-link">
+	              <a href="faces/carrinho.xhtml?faces-redirect=true" class="cart-link">
 	                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 	                <span>
 	                  Carrinho
@@ -126,8 +126,8 @@
 	  <footer class="footer_section">
 	    <div class="container">
 	      <p>
-	        <h:outputText value="&#169;" /> <span id="displayYear"></span> All Rights Reserved By
-	        <a href="https://html.design/">Free Html Templates</a>
+	        <h:outputText value="&#169;" /> <span id="displayYear"></span> Todos os direitos reservados By
+	        <a href="https://html.design/">UniCursos</a>
 	      </p>
 	    </div>
 	  </footer>
