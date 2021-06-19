@@ -32,7 +32,7 @@ public class LoginController {
 				if(usuarioLogado.getPerfil().equals(Perfil.ADMINISTRADOR)  || usuarioLogado.getPerfil().equals(Perfil.INSTRUTOR)) {
 					return "administrativo.xhtml";
 				}else {
-					return "sistemaemconstrucao.xhtml";
+					return "catalogo.xhtml";
 				}
 				//return "index.xhtml";
 			}else {

@@ -88,6 +88,7 @@ public class CursoController implements Serializable {
 	
 	public void delete() {
 		delete(getCurso());
+		//getListaCurso();
 	}
 	
 	public void delete(Curso curso) {
