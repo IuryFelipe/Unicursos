@@ -7,83 +7,141 @@
 	
 <ui:composition template="/template.xhtml">
 <ui:define name="conteudo">
-	<!-- Container -->
-	<div class="container-fluid">
-		<div class="row justify-content-md-center">
-			<div class="col-md-6 col-md-auto login-box">		
-				<h1>Cadastrar curso</h1>
-				<h:form id="form1">
-					<h:messages id="messages" 
-								globalOnly="false"
-								errorStyle="color:red;margin:8px;"
-								infoStyle="color:green;margin:8px;"
-								warnStyle="color:yellow;margin:8px;" />
-					<h:panelGrid id="pgPrincipal" columns="2">
-					
-						<h:outputLabel value="Nome do curso: " />
-						<h:inputText value="#{cursoController.curso.nome}"
-							 validatorMessage="O nome tem que possuir mais de 3 caracteres."
-							 required="true" requiredMessage="O nome deve ser preenchido.">
-							<f:validateLength minimum="3" />
-						</h:inputText>
-						
-						<h:outputLabel value="Descrição: " />
-						<h:inputText value="#{cursoController.curso.descricao}" />
-						
-						<h:outputLabel value="Url Imagem: " />
-						<h:inputText value="#{cursoController.curso.imagem}" />
-						
-						<h:outputLabel value="Categoria: " />
-						<h:selectOneMenu value="#{cursoController.curso.categoria}">
-							<f:selectItem itemLabel="Selecione uma opção"/>
-							<f:selectItems value="#{cursoController.listaCategoriaCurso}"
-										   var="obj" 
-										   itemLabel="#{obj.label}"/>
-						</h:selectOneMenu>
-						
-						<h:outputLabel value="Data Inicio: " />
-						<h:inputText value="#{cursoController.curso.dataInicio}"
-							converterMessage="A data deve serguir o seguinte formato: Ex.: 20/10/2000">
-							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
-						</h:inputText>
-						
-						<h:outputLabel value="Data Fim: " />
-						<h:inputText value="#{cursoController.curso.dataFim}"
-							converterMessage="A data deve serguir o seguinte formato: Ex.: 20/10/2000">
-							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
-						</h:inputText>	
-				
+			
+	<h1>Gerenciar Cursos</h1>
+	<div class="container d-flex justify-content-start">
+		<div>
+			<h:form id="form1">
+				<h:messages id="messages" 
+							globalOnly="false"
+							errorStyle="color:red;margin:8px;"
+							infoStyle="color:green;margin:8px;"
+							warnStyle="color:yellow;margin:8px;" />
+				<h:panelGrid id="pgPrincipal" columns="1" class="d-flex justify-content-start">
+					<h:panelGrid columns="3" class="text-left mb-4">
+						<h:panelGrid columns="1" class="mr-4">
+							<h:outputLabel value="Nome do curso: " />
+							<h:inputText value="#{cursoController.curso.nome}"
+								 validatorMessage="O nome tem que possuir mais de 3 caracteres."
+								 styleClass="form-control pr-3 d-flex justify-content-start"
+								 required="true" requiredMessage="O nome deve ser preenchido.">
+								<f:validateLength minimum="3" />
+							</h:inputText>
+						</h:panelGrid>
+						<h:panelGrid columns="1" class="mr-4">
+							<h:outputLabel value="Descrição: " />
+							<h:inputText value="#{cursoController.curso.descricao}" styleClass="form-control pr-3 d-flex justify-content-start"/>
+						</h:panelGrid>
+						<h:panelGrid columns="1" class="mr-4">
+							<h:outputLabel value="Url Imagem: " />
+							<h:inputText value="#{cursoController.curso.imagem}" styleClass="form-control pr-3 d-flex justify-content-start"/>
+						</h:panelGrid>
 					</h:panelGrid>
-					
+					<h:panelGrid columns="3" class="text-left mb-4">
+						<h:panelGrid columns="1" class="mr-4">
+							<h:outputLabel value="Categoria: " />
+							<h:selectOneMenu value="#{cursoController.curso.categoria}" styleClass="form-control">
+								<f:selectItem itemLabel="Selecione uma opção"/>
+								<f:selectItems value="#{cursoController.listaCategoriaCurso}"
+											   var="obj" 
+											   itemLabel="#{obj.label}"/>
+							</h:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="1" class="mr-4">
+							<h:outputLabel value="Data Inicio: " />
+							<h:inputText value="#{cursoController.curso.dataInicio}"
+								converterMessage="A data deve serguir o seguinte formato: Ex.: 20/10/2000"
+								styleClass="form-control">
+								<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+							</h:inputText>
+						</h:panelGrid>
+						<h:panelGrid columns="1" class="mr-4">
+							<h:outputLabel value="Data Fim: " />
+							<h:inputText value="#{cursoController.curso.dataFim}"
+								converterMessage="A data deve serguir o seguinte formato: Ex.: 20/10/2000"
+								styleClass="form-control">
+								<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+							</h:inputText>	
+						</h:panelGrid>
+					</h:panelGrid>
+			
+				</h:panelGrid>
+				<div class="mt-2 d-flex justify-content-end">
 					<h:panelGrid id="pgBotoes" columns="4">
-						<h:commandButton value="Incluir" 
+						<h:commandButton value="Incluir"
+							class="btn btn-primary" 
 							rendered="#{cursoController.curso.id == null}"
 							actionListener="#{cursoController.create}">
 							<f:ajax execute="@this pgPrincipal" render="@form" />
 						</h:commandButton>
 							
 						<h:commandButton value="Alterar" 
+							class="btn btn-primary"
 							rendered="#{cursoController.curso.id != null}"
 							actionListener="#{cursoController.update}"  >
 							<f:ajax execute="@this pgPrincipal" render="@form" />
 						</h:commandButton>
-			
-						<h:commandButton value="Excluir" 
+				
+						<h:commandButton value="Excluir"
+							class="btn btn-danger" 
 							rendered="#{cursoController.curso.id != null}"
 							actionListener="#{cursoController.delete}" >
 							<f:ajax execute="@this" render="@form" />
 						</h:commandButton>
 							
 						<h:commandButton value="Limpar" 
+							class="btn btn-primary"
 							actionListener="#{cursoController.limparFormulario}">
 							<f:ajax execute="@this" render="pgPrincipal messages pgBotoes" />
 						</h:commandButton>
 					</h:panelGrid>
-					
-				</h:form>
-			</div>
+				</div>
+				<h:panelGrid columns="11">
+					<h:panelGroup id="pgDataTable">
+						<h:dataTable 
+							id="dataTable"
+							value="#{cursoController.listaCurso}"
+							styleClass="table"
+							var="obj">
+							<h:column>
+								<f:facet name="header">Id</f:facet>
+								<h:outputLabel value="#{obj.id}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Nome</f:facet>
+								<h:outputLabel value="#{obj.nome}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Descrição</f:facet>
+								<h:outputLabel value="#{obj.descricao}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Categoria</f:facet>
+								<h:outputLabel value="#{obj.categoria.label}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Data Início</f:facet>
+								<h:outputLabel value="#{obj.dataInicio}">
+									<f:convertDateTime type="localDate" pattern="dd-MM-yy"/>
+								</h:outputLabel>
+							</h:column>	
+							
+							<h:column>
+								<f:facet name="header">Data Fim</f:facet>
+								<h:outputLabel value="#{obj.dataFim}">
+									<f:convertDateTime type="localDate" pattern="dd-MM-yy"/>
+								</h:outputLabel>
+							</h:column>	
+							</h:dataTable>
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
 		</div>
-	</div>
+	</div>	
 </ui:define>
 </ui:composition>
 </html>

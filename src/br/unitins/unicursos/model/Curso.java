@@ -25,7 +25,6 @@ public class Curso implements Cloneable {
 	@NotNull(message = "O campo Ativo não pode ser nulo")
 	private boolean ativo;
 	
-	
 	public Integer getId() {
 		return id;
 	}
@@ -83,6 +82,7 @@ public class Curso implements Cloneable {
 		this.usuario = usuario;
 	}
 	
+
 	public Curso getClone() {
 		try {
 			return (Curso) this.clone();
