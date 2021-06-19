@@ -73,6 +73,9 @@ public class Usuario implements Cloneable{
 		this.perfil = perfil;
 	}
 	public Telefone getTelefone() {
+		if(telefone == null) {
+			telefone = new Telefone();
+		}
 		return telefone;
 	}
 	public void setTelefone(Telefone telefone) {

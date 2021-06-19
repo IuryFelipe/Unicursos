@@ -13,6 +13,7 @@ import br.unitins.unicursos.application.ValidarCpf;
 import br.unitins.unicursos.dao.DAO;
 import br.unitins.unicursos.dao.UsuarioDAO;
 import br.unitins.unicursos.model.Perfil;
+import br.unitins.unicursos.model.Telefone;
 import br.unitins.unicursos.model.Usuario;
 
 @Named
@@ -22,6 +23,7 @@ public class UsuarioController implements Serializable {
 
 	private static final long serialVersionUID = -9046422907703860927L;
 	private Usuario usuario = null;
+	private Telefone telefone = null;
 	private List<Usuario> listaUsuario = null;
 	private String confirmarSenha;
 	private UIComponent uicCpf;
@@ -56,8 +58,10 @@ public class UsuarioController implements Serializable {
 	}
 	
 	public boolean validaCpf() {
-		if (ValidarCpf.isCPF(getUsuario().getCpf()))
+		if (ValidarCpf.isCPF(getUsuario().getCpf())) {
 			return true;
+		}
+			
 		Util.addErrorMessage("O CPF é inválido");
 		return false;
 	}
@@ -69,16 +73,18 @@ public class UsuarioController implements Serializable {
 		}
 		
 		DAO<Usuario> dao = new UsuarioDAO();
-		
-		String hashSenha = Util.hash(getUsuario().getEmail() + getUsuario().getSenha());
+		System.out.println(getUsuario());
+		String hashSenha = Util.hash(getUsuario().getSenha() + getUsuario().getEmail());
 		getUsuario().setSenha(hashSenha);
-		
-		if (dao.create(getUsuario())) {
-			Util.addInfoMessage("Usuário criado com sucesso!");
-			limparFormulario();
-		} else {
-			Util.addErrorMessage("O usuário não foi criado, houve um problema com o banco de dados");
+		if(validaCpf()) {
+			if (dao.create(getUsuario())) {
+				Util.addInfoMessage("Usuário criado com sucesso!");
+				limparFormulario();
+			} else {
+				Util.addErrorMessage("O usuário não foi criado, houve um problema com o banco de dados");
+			}
 		}
+		
 	}
 	
 	public void update() {
@@ -87,7 +93,7 @@ public class UsuarioController implements Serializable {
 			return;
 		}
 		
-		String hashSenha = Util.hash(getUsuario().getEmail() + getUsuario().getSenha());
+		String hashSenha = Util.hash(getUsuario().getSenha() + getUsuario().getEmail());
 		getUsuario().setSenha(hashSenha);
 		
 		DAO<Usuario> dao = new UsuarioDAO();

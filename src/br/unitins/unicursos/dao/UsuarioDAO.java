@@ -265,7 +265,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 				telefone.setCodArea(rs.getString("codarea"));
 				telefone.setNumero(rs.getString("telefone"));
 				usuario.setTelefone(telefone);
-				usuario.setEndereco(rs.getString("endereço"));
+				usuario.setEndereco(rs.getString("endereco"));
 				usuario.setAtivo(rs.getBoolean("ativo"));
 				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
 				
@@ -303,12 +303,14 @@ public class UsuarioDAO implements DAO<Usuario>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append(" u.id, ");
+		sql.append(" u.nome, ");
 		sql.append(" u.cpf, ");
-		sql.append(" datanascimento, ");
-		sql.append(" u.senha ");
+		sql.append(" u.datanascimento, ");
+		sql.append(" u.senha, ");
 		sql.append(" u.codarea, ");
 		sql.append(" u.telefone, ");
 		sql.append(" u.endereco, ");
+		sql.append(" u.email, ");
 		sql.append(" u.ativo, ");
 		sql.append(" u.perfil ");
 		sql.append("FROM ");
@@ -326,6 +328,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 			if(rs.next()) {
 				usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
+				usuario.setNome(rs.getString("nome"));
 				usuario.setCpf(rs.getString("cpf"));
 				Date data = rs.getDate("datanascimento");
 				usuario.setDataNascimento(data.toLocalDate());
@@ -335,7 +338,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 				telefone.setCodArea(rs.getString("codarea"));
 				telefone.setNumero(rs.getString("telefone"));
 				usuario.setTelefone(telefone);
-				usuario.setEndereco(rs.getString("endereço"));
+				usuario.setEndereco(rs.getString("endereco"));
 				usuario.setAtivo(rs.getBoolean("ativo"));
 				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
 			}
