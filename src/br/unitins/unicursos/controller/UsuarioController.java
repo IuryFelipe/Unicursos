@@ -96,12 +96,14 @@ public class UsuarioController implements Serializable {
 		String hashSenha = Util.hash(getUsuario().getSenha() + getUsuario().getEmail());
 		getUsuario().setSenha(hashSenha);
 		
-		DAO<Usuario> dao = new UsuarioDAO();
-		if (dao.update(getUsuario())) {
-			Util.addInfoMessage("Usuário alterado com sucesso!");
-			limparFormulario();
-		} else {
-			Util.addErrorMessage("Não foi possível alterar o usuário, houve um problema com o banco de dados");
+		if (validaCpf()) {
+			DAO<Usuario> dao = new UsuarioDAO();
+			if (dao.update(getUsuario())) {
+				Util.addInfoMessage("Usuário alterado com sucesso!");
+				limparFormulario();
+			} else {
+				Util.addErrorMessage("Não foi possível alterar o usuário, houve um problema com o banco de dados");
+			}
 		}
 	}
 	
