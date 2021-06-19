@@ -1,6 +1,7 @@
 package br.unitins.unicursos.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -27,10 +28,16 @@ public class CatalogoController implements Serializable {
 		if (courseList == null) {
 			DAO<Curso> dao = new CursoDAO();
 			courseList = dao.findAll();
+			if (courseList == null)
+				courseList = new ArrayList<Curso>();
 		}
 		System.out.println(courseList);
 		return courseList;
 		
+	}
+	
+	public void setCourseList(List<Curso> courseList) {
+		this.courseList = courseList;
 	}
 
 }

@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
+import br.unitins.unicursos.model.Curso;
+
 public interface DAO<T> {
 	
 	public boolean create(T obj);
@@ -12,6 +14,7 @@ public interface DAO<T> {
 	public boolean delete(Integer id);
 	public List<T> findAll();
 	public T findById(Integer id);
+	public List<T> findAllById(Integer id);
 
 	public static Connection getConnection() {
 	    try {

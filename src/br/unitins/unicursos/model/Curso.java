@@ -24,7 +24,14 @@ public class Curso implements Cloneable {
 	private LocalDate dataFim;
 	@NotNull(message = "O campo Ativo não pode ser nulo")
 	private boolean ativo;
+	private Double valor;
 	
+	public Double getValor() {
+		return valor;
+	}
+	public void setValor(Double valor) {
+		this.valor = valor;
+	}
 	public Integer getId() {
 		return id;
 	}

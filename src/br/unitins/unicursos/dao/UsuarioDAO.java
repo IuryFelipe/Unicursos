@@ -360,4 +360,10 @@ public class UsuarioDAO implements DAO<Usuario>{
 		return usuario;
 	}
 
+	@Override
+	public List<Usuario> findAllById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -25,7 +25,7 @@ public class CarrinhoController implements Serializable {
 	
 	private Compra compra;
 	
-	private void finalizarCompra() {
+	public void finalizarCompra() {
 		Usuario usuario = (Usuario) Session.getInstance().get("usuarioLogado");
 		if (usuario == null) {
 			Util.addErrorMessage("Você precisa estar autenticado para finalizar a compra, por favor, faça o login.");

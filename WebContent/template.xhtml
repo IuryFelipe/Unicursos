@@ -1,7 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">>
 <h:head>
 	<meta charset="utf-8" name="viewport"
 		content="width=device-width, initial-scale=1"
@@ -42,8 +44,13 @@
 	            </div>
 	            <h:form>
 		            <div class="search_form">
-			              <input type="text" class="form-control" placeholder="Search here..." />
-			              <h:commandButton class="" type="submit">
+		            	<h:selectOneMenu styleClass="form-control" value="#{compraController.tipoFiltro}">
+							<f:selectItem itemValue="1" itemLabel="Nome" />
+							<f:selectItem itemValue="2" itemLabel="Descrição" />                   
+						</h:selectOneMenu>
+			              <input type="text" class="form-control" placeholder="Search here..." 
+			              							jsf:value="#{compraController.filtro}"/>
+			              <h:commandButton class="" type="submit" actionListener="#{compraController.pesquisar}">
 			                <i class="fa fa-search" aria-hidden="true"></i>
 			              </h:commandButton>
 		            </div>

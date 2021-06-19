@@ -12,6 +12,7 @@ import javax.inject.Named;
 import br.unitins.unicursos.application.Util;
 import br.unitins.unicursos.dao.CursoDAO;
 import br.unitins.unicursos.dao.DAO;
+import br.unitins.unicursos.dao.UsuarioDAO;
 import br.unitins.unicursos.model.CategoriaCurso;
 import br.unitins.unicursos.model.Curso;
 import br.unitins.unicursos.model.Perfil;
@@ -96,6 +97,11 @@ public class CursoController implements Serializable {
 		} else {
 			Util.addErrorMessage("Houve um problema ao tentar excluir o curso.");
 		}
+	}
+	
+	public void edit(Curso c) {
+		DAO<Curso> dao = new CursoDAO();
+		setCurso(dao.findById(c.getId()));
 	}
 
 	public void limparFormulario() {

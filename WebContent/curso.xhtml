@@ -63,6 +63,10 @@
 								<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
 							</h:inputText>	
 						</h:panelGrid>
+						<h:panelGrid columns="1" class="mr-4">
+							<h:outputLabel value="Valor: " />
+							<h:inputText value="#{cursoController.curso.valor}" styleClass="form-control pr-3 d-flex justify-content-start"/>
+						</h:panelGrid>
 					</h:panelGrid>
 			
 				</h:panelGrid>
@@ -136,6 +140,23 @@
 									<f:convertDateTime type="localDate" pattern="dd-MM-yy"/>
 								</h:outputLabel>
 							</h:column>	
+							<h:column>
+								<f:facet name="header">Valor</f:facet>
+								<h:outputLabel value="#{obj.valor}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Ação</f:facet>
+								<h:commandButton value="Editar"
+									class="btn btn-primary"
+									actionListener="#{cursoController.edit(obj)}">
+									<f:ajax execute="@this" render="@form"/>
+								</h:commandButton>
+								<h:commandButton value="Excluir"
+									class="btn btn-danger"
+									actionListener="#{cursoController.delete(obj)}">
+									<f:ajax execute="@this" render="@form:pgDataTable @form:messages"/>
+								</h:commandButton>
+							</h:column>
 							</h:dataTable>
 					</h:panelGroup>
 				</h:panelGrid>
