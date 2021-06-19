@@ -27,11 +27,9 @@
           <div class="box">
             <div class="img-box">
               <h:graphicImage library="images" name="p1.png"/>
-              <a href="" class="add_cart_btn">
-                <span>
-                  Add ao Carrinho
-                </span>
-              </a>
+              <h:form>
+              <h:commandButton value="Add ao carrinho" class="add_cart_btn" action="#{compraController.addCarrinho(obj)}" />
+              </h:form>
             </div>
             <div class="detail-box">
               <h5>
@@ -39,15 +37,8 @@
               </h5>
               <div class="product_info">
                 <h5>
-                  <span>R$</span> <h:outputText value="#{obj.}"/>
+                  <span>R$</span> <h:outputText value="#{obj.valor}"/>
                 </h5>
-                <div class="star_container">
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                </div>
               </div>
             </div>
           </div>

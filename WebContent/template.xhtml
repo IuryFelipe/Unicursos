@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">>
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 <h:head>
 	<meta charset="utf-8" name="viewport"
 		content="width=device-width, initial-scale=1"
@@ -63,15 +63,9 @@
 							style="color:white"/>
 					</h:form>
 					<h:form rendered="#{templateController.userLogged == null}">
-		              <a href="faces/login.xhtml?faces-redirect=true" class="account-link">
-		                <i class="fa fa-user" aria-hidden="true"></i>
-		                <span>
-		                  Entrar
-		                </span>
-		              </a>
+		              <h:commandLink value="Entrar" class="account-link" action="login.xhtml?faces-redirect=true" />
 		             </h:form>
-	              <a href="" class="cart-link">
-	                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+	              <a href="carrinho.xhtml" class="cart-link">
 	                <span>
 	                  Carrinho
 	                </span>
@@ -98,13 +92,13 @@
 		            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		              <ul class="navbar-nav ">
 		                <li class="nav-item active">
-		                  <h:commandLink value="home" class="nav-link" action="faces/index.xhtml?faces-redirect=true"/> <br/>
+		                  <a href="index.xhtml" class="nav-link">Home</a>
 		                </li>
 		                <li class="nav-item">
-		                  <h:commandLink value="Cursos" class="nav-link" action="faces/cursos.xhtml?faces-redirect=true"/> <br/>
+		                <a href="catalogo.xhtml" class="nav-link">Cursos</a>
 		                </li>
 		                <li class="nav-item">
-		                  <h:commandLink value="Sobre nós" class="nav-link" action="faces/sobre.xhtml?faces-redirect=true"/> <br/>
+		                <a href="sistemaemconstrucao.xhtml" class="nav-link">Sobre nós</a>
 		                </li>
 		              </ul>
 		            </div>
@@ -126,8 +120,8 @@
 	  <footer class="footer_section">
 	    <div class="container">
 	      <p>
-	        <h:outputText value="&#169;" /> <span id="displayYear"></span> All Rights Reserved By
-	        <a href="https://html.design/">Free Html Templates</a>
+	        <h:outputText value="&#169;" /> <span id="displayYear"></span> 2021 Unicursos - 
+	        <a href="https://html.design/">Todos os direitos reservados</a>
 	      </p>
 	    </div>
 	  </footer>
